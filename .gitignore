@@ -1,0 +1,86 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyTorch
+*.pth
+*.pt
+checkpoints/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+myenv/
+sentinelclip/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Data
+data/cifar-10-batches-py/
+data/cifar-10-python.tar.gz
+data/cifar-100-python/
+data/imagenet/
+*.csv
+*.h5
+*.hdf5
+
+# Outputs
+outputs/*.png
+outputs/*.pdf
+outputs/*.jsonl
+outputs/*/
+
+# Logs
+logs/*.log
+logs/*.err
+logs/*.out
+*.log
+
+# Cache
+.cache/
+*.pkl
+*.pickle
+
+# OS
+.DS_Store
+Thumbs.db
+
+# SLURM
+slurm-*.out
+*.sbatch.log
+
+# Temporary
+tmp/
+temp/
+*.tmp
