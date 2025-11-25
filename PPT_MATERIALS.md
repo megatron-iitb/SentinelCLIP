@@ -108,42 +108,70 @@ Step 5: Policy decision → MEDIUM confidence → Request radiologist review
 
 ```mermaid
 flowchart TB
-    subgraph Input["📥 Input Stage"]
-        IMG[CIFAR-10 Images<br/>10,000 test samples<br/>10 classes]
+    subgraph Input["Input Stage"]
+        IMG["CIFAR-10 Images
+10,000 test samples
+10 classes"]
     end
     
-    subgraph Model["🎨 CLIP Model"]
-        CLIP[ViT-B-32 OpenAI<br/>Zero-shot classification<br/>86.16% baseline accuracy]
+    subgraph Model["CLIP Model"]
+        CLIP["ViT-B-32 OpenAI
+Zero-shot classification
+86.16% baseline accuracy"]
     end
     
-    subgraph Calibration["📊 Multi-Stage Calibration"]
-        TEMP[Temperature Scaling<br/>T=1.23 optimized<br/>Corrects overconfidence]
-        ISO[Isotonic Regression<br/>Per-question calibration<br/>Non-parametric mapping]
-        CONF[Conformal Prediction<br/>90% coverage guarantee<br/>Prediction sets]
+    subgraph Calibration["Multi-Stage Calibration"]
+        TEMP["Temperature Scaling
+T=1.23 optimized
+Corrects overconfidence"]
+        ISO["Isotonic Regression
+Per-question calibration
+Non-parametric mapping"]
+        CONF["Conformal Prediction
+90% coverage guarantee
+Prediction sets"]
     end
     
-    subgraph Uncertainty["🔍 Uncertainty Quantification"]
-        ENS[Ensemble Confidence<br/>16 augmentations<br/>Std + Entropy measures]
-        QUES[Semantic Questions<br/>9 interpretable prompts<br/>Critical reasoning]
-        OOD[OOD Detection<br/>Entropy-based<br/>Identify anomalies]
+    subgraph Uncertainty["Uncertainty Quantification"]
+        ENS["Ensemble Confidence
+16 augmentations
+Std + Entropy measures"]
+        QUES["Semantic Questions
+9 interpretable prompts
+Critical reasoning"]
+        OOD["OOD Detection
+Entropy-based
+Identify anomalies"]
     end
     
-    subgraph Policy["🤖 Adaptive Decision Policy"]
-        OPT[Threshold Optimization<br/>Grid search (5³=125 combos)<br/>Minimize cost function]
-        DEC[Three-Tier Decisions<br/>Auto / Clarify / Human<br/>Based on confidence]
+    subgraph Policy["Adaptive Decision Policy"]
+        OPT["Threshold Optimization
+Grid search 125 combos
+Minimize cost function"]
+        DEC["Three-Tier Decisions
+Auto / Clarify / Human
+Based on confidence"]
     end
     
-    subgraph Human["👤 Human-in-the-Loop"]
-        SIM[Simulated Human<br/>100% accuracy oracle<br/>Validates low-confidence]
+    subgraph Human["Human-in-the-Loop"]
+        SIM["Simulated Human
+100% accuracy oracle
+Validates low-confidence"]
     end
     
-    subgraph Evaluation["📈 Evaluation"]
-        METRICS[Comprehensive Metrics<br/>ECE, Coverage, Intervention<br/>Reliability diagrams]
-        AUDIT[Audit Logs<br/>Per-sample decisions<br/>JSONL format]
+    subgraph Evaluation["Evaluation"]
+        METRICS["Comprehensive Metrics
+ECE Coverage Intervention
+Reliability diagrams"]
+        AUDIT["Audit Logs
+Per-sample decisions
+JSONL format"]
     end
     
-    subgraph Output["📤 Final Output"]
-        RESULT[99.99% Accuracy<br/>100% Error Recall<br/>Calibrated Confidence]
+    subgraph Output["Final Output"]
+        RESULT["99.99% Accuracy
+100% Error Recall
+Calibrated Confidence"]
     end
     
     IMG --> CLIP
@@ -185,32 +213,49 @@ flowchart TB
 ```mermaid
 flowchart LR
     subgraph Raw["Raw CLIP Output"]
-        L[Logits<br/>10-dim vector<br/>Uncalibrated]
+        L["Logits
+10-dim vector
+Uncalibrated"]
     end
     
     subgraph Stage1["Stage 1: Temperature Scaling"]
-        T1[Divide by T=1.23<br/>Softens distribution]
-        P1[Softmax<br/>Convert to probs]
-        ECE1[ECE: 0.156 → 0.042<br/>73% reduction!]
+        T1["Divide by T=1.23
+Softens distribution"]
+        P1["Softmax
+Convert to probs"]
+        ECE1["ECE: 0.156 to 0.042
+73% reduction"]
     end
     
     subgraph Stage2["Stage 2: Isotonic Regression"]
-        Q1[Generate 9 questions<br/>Semantic reasoning]
-        Q2["Q: Is this a vehicle?<br/>Q: Does it have legs?<br/>Q: Is it man-made?"]
-        CAL[Per-question calibration<br/>Monotonic mapping]
-        CONF1[Question confidence<br/>0.65-0.85 range]
+        Q1["Generate 9 questions
+Semantic reasoning"]
+        Q2["Q: Is this a vehicle?
+Q: Does it have legs?
+Q: Is it man-made?"]
+        CAL["Per-question calibration
+Monotonic mapping"]
+        CONF1["Question confidence
+0.65-0.85 range"]
     end
     
     subgraph Stage3["Stage 3: Conformal Prediction"]
-        VAL[Validation set<br/>5,000 samples]
-        SCORE[Compute non-conformity<br/>scores = 1 - P_true_class]
-        QUANT[Find 90th percentile<br/>τ = 0.24]
-        SET[Prediction sets<br/>P(class) > 1-τ]
-        SIZE[Avg set size: 1.11<br/>Mostly singletons!]
+        VAL["Validation set
+5,000 samples"]
+        SCORE["Compute non-conformity
+scores = 1 - P_true_class"]
+        QUANT["Find 90th percentile
+τ = 0.24"]
+        SET["Prediction sets
+P > 1-τ"]
+        SIZE["Avg set size: 1.11
+Mostly singletons"]
     end
     
     subgraph Output["Calibrated Output"]
-        FINAL[Calibrated probs<br/>+ Conformal sets<br/>+ Question confs]
+        FINAL["Calibrated probs
++ Conformal sets
++ Question confs"]
     end
     
     L --> T1
@@ -244,41 +289,58 @@ flowchart LR
 ```mermaid
 flowchart TB
     subgraph Input["Single Image"]
-        IMG[Original Test Image<br/>32×32 RGB]
+        IMG["Original Test Image
+32x32 RGB"]
     end
     
     subgraph Augmentation["Test-Time Augmentation"]
-        A1[Aug 1: Original]
-        A2[Aug 2: Flip H]
-        A3[Aug 3: Rotate 15°]
-        A4[Aug 4: Color jitter]
-        A5[... 16 total augs]
+        A1["Aug 1: Original"]
+        A2["Aug 2: Flip H"]
+        A3["Aug 3: Rotate 15deg"]
+        A4["Aug 4: Color jitter"]
+        A5["... 16 total augs"]
     end
     
     subgraph Inference["CLIP Inference"]
-        P1[Prediction 1<br/>Cat: 85%, Dog: 10%]
-        P2[Prediction 2<br/>Cat: 82%, Dog: 12%]
-        P3[Prediction 3<br/>Cat: 88%, Dog: 8%]
-        P4[Prediction 4<br/>Cat: 80%, Dog: 15%]
-        P5[... 16 predictions]
+        P1["Prediction 1
+Cat: 85%, Dog: 10%"]
+        P2["Prediction 2
+Cat: 82%, Dog: 12%"]
+        P3["Prediction 3
+Cat: 88%, Dog: 8%"]
+        P4["Prediction 4
+Cat: 80%, Dog: 15%"]
+        P5["... 16 predictions"]
     end
     
     subgraph Measures["Uncertainty Measures"]
-        STD[Standard Deviation<br/>σ = std(predictions)<br/>Conf = 1 - σ]
-        ENT[Entropy-Based<br/>H(pred) - E[H|aug]<br/>Mutual information proxy]
-        COMB[Combined Score<br/>0.6×std + 0.4×entropy<br/>Geometric mean option]
+        STD["Standard Deviation
+σ = std predictions
+Conf = 1 - σ"]
+        ENT["Entropy-Based
+H pred - E H|aug
+Mutual information"]
+        COMB["Combined Score
+0.6×std + 0.4×entropy
+Geometric mean option"]
     end
     
     subgraph Questions["Semantic Questions"]
-        Q1[Q1: Is this a vehicle?<br/>CLIP: 15% → Low]
-        Q2[Q2: Does it have fur?<br/>CLIP: 90% → High]
-        Q3[Q3: Does it have 4 legs?<br/>CLIP: 85% → High]
-        Q4[... 9 questions total]
-        MIN[Take minimum confidence<br/>Most critical question]
+        Q1["Q1: Is this a vehicle?
+CLIP: 15% Low"]
+        Q2["Q2: Does it have fur?
+CLIP: 90% High"]
+        Q3["Q3: Does it have 4 legs?
+CLIP: 85% High"]
+        Q4["... 9 questions total"]
+        MIN["Take minimum confidence
+Most critical question"]
     end
     
     subgraph Final["Final Uncertainty"]
-        ACTION[Action Confidence<br/>min(ensemble, questions)<br/>Conservative estimate]
+        ACTION["Action Confidence
+min ensemble questions
+Conservative estimate"]
     end
     
     IMG --> A1 & A2 & A3 & A4 & A5
@@ -328,40 +390,65 @@ flowchart TB
 ```mermaid
 flowchart TB
     subgraph Inputs["Policy Inputs"]
-        CONF[Action Confidence<br/>From uncertainty estimation]
-        CRIT[Critical Confidence<br/>Min question confidence]
-        CONFSET[Conformal Set Size<br/>1.11 average]
+        CONF["Action Confidence
+From uncertainty estimation"]
+        CRIT["Critical Confidence
+Min question confidence"]
+        CONFSET["Conformal Set Size
+1.11 average"]
     end
     
     subgraph GridSearch["Grid Search Optimization"]
-        PARAM1[τ_critical_low<br/>Range: [0.1, 0.9]<br/>Grid: 5 values]
-        PARAM2[θ_auto<br/>Range: [0.6, 0.95]<br/>Grid: 5 values]
-        PARAM3[θ_clarify<br/>Range: [0.4, 0.8]<br/>Grid: 5 values]
-        TOTAL[Total: 5³ = 125<br/>combinations tested]
+        PARAM1["τ_critical_low
+Range: 0.1 to 0.9
+Grid: 5 values"]
+        PARAM2["θ_auto
+Range: 0.6 to 0.95
+Grid: 5 values"]
+        PARAM3["θ_clarify
+Range: 0.4 to 0.8
+Grid: 5 values"]
+        TOTAL["Total: 125
+combinations tested"]
     end
     
     subgraph CostFunction["Cost Function"]
-        COST1[c_human × % interventions<br/>Cost of human time]
-        COST2[c_error × % errors<br/>Cost of mistakes]
-        TOTAL_COST[Total cost<br/>= c_h × interv + c_e × err]
-        OPT[Find minimum cost<br/>Best threshold combo]
+        COST1["c_human × % interventions
+Cost of human time"]
+        COST2["c_error × % errors
+Cost of mistakes"]
+        TOTAL_COST["Total cost
+= c_h × interv + c_e × err"]
+        OPT["Find minimum cost
+Best threshold combo"]
     end
     
     subgraph Decisions["Three-Tier Decisions"]
-        D1{High Confidence?<br/>conf > θ_auto}
-        D2{Medium Confidence?<br/>conf > θ_clarify}
-        D3{Low Confidence?<br/>conf ≤ θ_clarify}
+        D1{"High Confidence?
+conf > θ_auto"}
+        D2{"Medium Confidence?
+conf > θ_clarify"}
+        D3{"Low Confidence?
+conf ≤ θ_clarify"}
         
-        AUTO[AUTO-EXECUTE<br/>Trust AI prediction<br/>45% of samples]
-        CLARIFY[CLARIFY<br/>Use conformal set<br/>+ ensemble vote<br/>35% of samples]
-        HUMAN[DEFER TO HUMAN<br/>Expert judgment<br/>20% of samples]
+        AUTO["AUTO-EXECUTE
+Trust AI prediction
+45% of samples"]
+        CLARIFY["CLARIFY
+Use conformal set
++ ensemble vote
+35% of samples"]
+        HUMAN["DEFER TO HUMAN
+Expert judgment
+20% of samples"]
     end
     
     subgraph Results["Optimized Thresholds"]
-        R1[τ_critical: 0.35]
-        R2[θ_auto: 0.80]
-        R3[θ_clarify: 0.65]
-        R4[Cost minimized<br/>Balanced precision/recall]
+        R1["τ_critical: 0.35"]
+        R2["θ_auto: 0.80"]
+        R3["θ_clarify: 0.65"]
+        R4["Cost minimized
+Balanced precision/recall"]
     end
     
     CONF --> PARAM1
